@@ -96,7 +96,7 @@ static asmlinkage int acidarmor_kill(struct task_struct *target,
 
 static struct ftrace_hook hooks[] = {
     HOOK("apparmor_file_open", acidarmor_file_open, &orig_file_open),
-    HOOK("apparmor_task_kill", acidarmor_kill, &orig_kill),
+    // HOOK("apparmor_task_kill", acidarmor_kill, &orig_kill),
 };
 
 /* Module initialization function */
