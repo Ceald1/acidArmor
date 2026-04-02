@@ -53,6 +53,8 @@ dkms.conf
 
 # debug information files
 *.dwo
+*.sys
+
 
 # Clang and LLVM crap
 compile_commands.json
